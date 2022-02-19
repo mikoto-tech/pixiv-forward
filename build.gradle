@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'net.mikoto.pixiv'
-version = '1.1.4'
+version = '1.2.0'
 sourceCompatibility = '11'
 
 repositories {
@@ -14,8 +14,12 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.5.6'
-    implementation 'com.alibaba:fastjson:1.2.78'
+    // Spring
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Others
     implementation 'com.squareup.okhttp3:okhttp:4.9.3'
-    implementation 'net.mikoto:database-api:1.0.0'
+    implementation 'commons-io:commons-io:2.11.0'
+    implementation 'org.jetbrains:annotations:22.0.0'
+    implementation 'com.alibaba:fastjson:1.2.79'
 }

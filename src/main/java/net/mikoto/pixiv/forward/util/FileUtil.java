@@ -1,46 +1,69 @@
 package net.mikoto.pixiv.forward.util;
 
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.jetbrains.annotations.NotNull;
 
-import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * @author mikoto
- * @date 2021/12/11 11:01
+ * @date 2022/1/2 1:33
  */
 public class FileUtil {
     /**
-     * Get file.
+     * Create a new dir or don't do anything.
      *
-     * @param filePath Path.
-     * @return File data.
-     * @throws IOException Cannot find file.
+     * @param dirName The name of the dir.
      */
-    public static byte[] inputStream2ByteArray(String filePath) throws IOException {
-        Resource resource = new ClassPathResource(filePath);
-        InputStream in = resource.getInputStream();
-        byte[] data = toByteArray(in);
-        in.close();
-        return data;
+    public static void createDir(@NotNull String dirName) {
+        File dir = new File(dirName);
+        if (!dir.exists()) {
+            if (!dir.mkdir()) {
+                System.err.println("Can't create dir");
+            }
+        }
     }
 
     /**
-     * Read input stream to bytes.
+     * Create a new file of don't do anything.
      *
-     * @param in Input stream.
-     * @return Bytes.
-     * @throws IOException Error.
+     * @param file  The path of the file.
+     * @param input The data in the file.
+     * @throws IOException An error.
      */
-    private static byte[] toByteArray(InputStream in) throws IOException {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024 * 4];
-        int n;
-        while ((n = in.read(buffer)) != -1) {
-            out.write(buffer, 0, n);
+    public static void createFile(@NotNull File file, @NotNull String input) throws IOException {
+        if (!file.exists()) {
+            if (file.createNewFile()) {
+                FileWriter fileWriter = new FileWriter(file);
+                fileWriter.write(input);
+                fileWriter.close();
+            } else {
+                System.err.println("Can't create config");
+            }
         }
-        return out.toByteArray();
+    }
+
+    /**
+     * Write data into the file.
+     *
+     * @param file  The path of the file.
+     * @param input The data in the file.
+     * @throws IOException An error.
+     */
+    public static void writeFile(@NotNull File file, @NotNull String input) throws IOException {
+        if (!file.exists()) {
+            if (file.createNewFile()) {
+                FileWriter fileWriter = new FileWriter(file);
+                fileWriter.write(input);
+                fileWriter.close();
+            } else {
+                System.err.println("Can't create config");
+            }
+        } else {
+            FileWriter fileWriter = new FileWriter(file);
+            fileWriter.write(input);
+            fileWriter.close();
+        }
     }
 }
