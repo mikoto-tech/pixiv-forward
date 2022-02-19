@@ -11,16 +11,9 @@ Mikoto-Pixiv-Forward 是为了规避pixiv的反爬虫机制,同时为了应对�
 部署pixiv-forward的方法也很简单,您只需要在 [release](https://github.com/mikoto2464/pixiv/releases) 页面下载此项目的jar包 并将其下载到您的目标服务器 接着执行以下命令
 
 ```bash
-nohup java -jar pixiv-forward-(version).jar [ip] [port] [userName] [password] > pixiv-forward.log 2>&1 &
+java -jar pixiv-forward-(version).jar
 ```
-
-上面命令中的
-
-```bash
-[ip] [port] [userName] [password]
-```
-
-分别为您的pixiv-web-database的 ip 端口 用户名 密码 请正确填写
+即可 别忘记改config里的key!
 
 我们为pixiv-forward免费提供了两个转发服务器:
 
