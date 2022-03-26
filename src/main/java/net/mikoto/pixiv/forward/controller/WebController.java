@@ -20,6 +20,14 @@ public class WebController implements PublicKey {
     private static final String RSA_PUBLIC_KEY = "RSA_PUBLIC_KEY";
 
     @RequestMapping(
+            value = FORWARD_WEB,
+            method = RequestMethod.GET
+    )
+    public String forwardHttpApi() {
+        return "<script>window.location.href='" + FORWARD_WEB + "/index.html'</script>";
+    }
+
+    @RequestMapping(
             value = FORWARD_WEB + FORWARD_WEB_PUBLIC_KEY,
             method = RequestMethod.GET
     )

@@ -32,6 +32,14 @@ public class ArtworkController implements GetInformation, GetImage {
     private static final String RSA_PRIVATE_KEY = "RSA_PRIVATE_KEY";
 
     @RequestMapping(
+            value = FORWARD_ARTWORK,
+            method = RequestMethod.GET
+    )
+    public String artworkHttpApi() {
+        return "<script>window.location.href='" + FORWARD_ARTWORK + "/index.html'</script>";
+    }
+
+    @RequestMapping(
             value = FORWARD_ARTWORK + FORWARD_ARTWORK_GET_INFORMATION,
             method = RequestMethod.GET
     )
