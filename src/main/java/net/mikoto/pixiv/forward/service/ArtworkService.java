@@ -1,6 +1,7 @@
 package net.mikoto.pixiv.forward.service;
 
-import net.mikoto.pixiv.forward.pojo.Artwork;
+
+import net.mikoto.pixiv.api.pojo.Artwork;
 
 import java.io.IOException;
 

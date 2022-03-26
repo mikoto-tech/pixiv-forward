@@ -3,7 +3,7 @@ package net.mikoto.pixiv.forward.controller;
 import com.alibaba.fastjson.JSONObject;
 import net.mikoto.pixiv.api.http.forward.artwork.GetImage;
 import net.mikoto.pixiv.api.http.forward.artwork.GetInformation;
-import net.mikoto.pixiv.forward.pojo.Artwork;
+import net.mikoto.pixiv.api.pojo.Artwork;
 import net.mikoto.pixiv.forward.service.ArtworkService;
 import net.mikoto.pixiv.forward.service.impl.ArtworkServiceImpl;
 import org.jetbrains.annotations.NotNull;
