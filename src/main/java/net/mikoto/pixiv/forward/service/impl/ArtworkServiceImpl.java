@@ -19,7 +19,9 @@ import java.util.*;
 public class ArtworkServiceImpl implements ArtworkService {
     private static final String ERROR = "error";
     private static final String PIXIV_ARTWORK_API = "https://www.pixiv.net/ajax/illust/";
-    private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient();
+    private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient.Builder()
+            .retryOnConnectionFailure(true)
+            .build();
     private static final int SUCCESS_CODE = 200;
 
     /**
@@ -110,6 +112,7 @@ public class ArtworkServiceImpl implements ArtworkService {
         Request artworkRequest = new Request.Builder()
                 .url(url)
                 .header("Referer", "https://www.pixiv.net")
+                .get()
                 .build();
         // execute a call
         Response artworkResponse = OK_HTTP_CLIENT.newCall(artworkRequest).execute();

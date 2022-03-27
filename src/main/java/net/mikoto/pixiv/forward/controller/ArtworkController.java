@@ -76,14 +76,15 @@ public class ArtworkController implements GetInformation, GetImage {
         return outputJson;
     }
 
-    @RequestMapping(value = FORWARD_ARTWORK + FORWARD_ARTWORK_GET_IMAGE, method =
-            RequestMethod.GET)
+    @RequestMapping(
+            value = FORWARD_ARTWORK + FORWARD_ARTWORK_GET_IMAGE,
+            method = RequestMethod.GET,
+            produces = "image/jpeg"
+    )
     @Override
     public byte[] getImageHttpApi(@NotNull HttpServletResponse response,
                                   @RequestParam @NotNull String key,
                                   @RequestParam String url) throws IOException, InterruptedException {
-        response.setContentType("image/jpeg");
-
         if (key.equals(MAIN_PROPERTIES.getProperty(PIXIV_FORWARD_KEY))) {
             return ARTWORK_SERVICE.getImage(url);
         } else {
