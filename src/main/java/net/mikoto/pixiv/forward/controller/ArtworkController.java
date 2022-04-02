@@ -19,6 +19,7 @@ import static net.mikoto.pixiv.api.http.HttpApi.*;
 import static net.mikoto.pixiv.forward.constant.Properties.MAIN_PROPERTIES;
 import static net.mikoto.pixiv.forward.util.RsaUtil.getPrivateKey;
 import static net.mikoto.pixiv.forward.util.RsaUtil.sign;
+import static net.mikoto.pixiv.forward.util.Sha256Util.getSha256;
 
 /**
  * @author mikoto
@@ -52,11 +53,11 @@ public class ArtworkController implements GetInformation, GetImage {
 
         if (key.equals(MAIN_PROPERTIES.getProperty(PIXIV_FORWARD_KEY))) {
             try {
-                Artwork pixivData = ARTWORK_SERVICE.getPixivDataById(Integer.parseInt(artworkId));
-                if (pixivData != null) {
-                    JSONObject body = pixivData.toJsonObject();
+                Artwork artwork = ARTWORK_SERVICE.getPixivDataById(Integer.parseInt(artworkId));
+                if (artwork != null) {
+                    JSONObject body = artwork.toJsonObject();
                     outputJson.put("body", body);
-                    outputJson.put("sign", sign(body.toJSONString(), getPrivateKey(MAIN_PROPERTIES.getProperty(RSA_PRIVATE_KEY))));
+                    outputJson.put("sign", sign(getSha256(body.toJSONString()), getPrivateKey(MAIN_PROPERTIES.getProperty(RSA_PRIVATE_KEY))));
                     outputJson.put("success", true);
                     outputJson.put("message", "");
                 } else {
