@@ -1,37 +1,52 @@
 # Mikoto-Pixiv-Forward
 
-Mikoto-Pixiv-Forward 是为了规避pixiv的反爬虫机制,同时为了应对中国特殊的网络环境,我们使用pixiv-forward进行pixiv数据的转发
+`Mikoto-Pixiv-Forward` 是为了
 
-我们不建议您将pixiv-forward项目部署在中国大陆地区
+1. 规避Pixiv的反爬虫机制
+2. 对于无法连接上 [pixiv](https://www.pixiv.net) 的用户的一种替代解决方案
+3. 确保进入`Mikoto-Pixiv`数据网络的`Artwork`数据准确无误
+4. 减少单一主机的数据负担
 
 ## 如何使用?
 
 ### Step.1
 
-部署pixiv-forward的方法也很简单,您只需要在 [release](https://github.com/mikoto2464/pixiv/releases) 页面下载此项目的jar包 并将其下载到您的目标服务器 接着执行以下命令
+部署Pixiv-Forward的方法很简单, 您只需要在 [release](https://github.com/mikoto2464/pixiv-forward/releases) 页面将jar包其下载到您的目标服务器
+
+### Step.2
+
+执行以下命令(需提前安装[Java](https://openjdk.java.net/))
 
 ```bash
 java -jar pixiv-forward-(version).jar
 ```
-即可 别忘记改config里的key!
 
-我们为pixiv-forward免费提供了两个转发服务器:
+### Step.3
 
+程序此时会自动在当前目录生成 `config` 文件夹, 并在其中创建 `config.properties` 文件.
+
+此时 您可以:
+
+1. 修改其中的 `PIXIV_FORWARD_KEY` 用于您的`Pixiv-Forward`的`Key`
+2. 修改其中的 `RSA_PUBLIC_KEY` 和 `RSA_PRIVATE_KEY` 用于数据的签名
+
+### Step.4
+
+此时 您只需要重新执行
+
+```bash
+java -jar pixiv-forward-(version).jar
 ```
-https://pixiv-forward-1.mikoto-tech.cc
-https://pixiv-forward-2.mikoto-tech.cc //Offline
-https://pixiv-forward-3.mikoto-tech.cc
-```
 
-并且开放测试key: 1fc499f4ef758ad328505f6747d39198c9373cb1dfe893f21300f0eeb7a3f4c4
+便可以享受`Pixiv-Forward`所带来的便利了!
 
 ## 声明
 
 ### 一切开发旨在学习，请勿用于非法用途
 
-- Mikoto-Pixiv 是完全免费且开放源代码的软件，仅供学习和娱乐用途使用
-- Mikoto-Pixiv 不会通过任何方式强制收取费用，或对使用者提出物质条件
-- Mikoto-Pixiv 由整个开源社区维护，并不是属于某个个体的作品，所有贡献者都享有其作品的著作权。
+- `Mikoto-Pixiv` 是完全免费且开放源代码的软件，仅供学习和娱乐用途使用
+- `Mikoto-Pixiv` 不会通过任何方式强制收取费用，或对使用者提出物质条件
+- `Mikoto-Pixiv` 由整个开源社区维护，并不是属于某个个体的作品，所有贡献者都享有其作品的著作权。
 
 ### 许可证
 
@@ -50,9 +65,9 @@ https://pixiv-forward-3.mikoto-tech.cc
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-`mikoto-pixiv` 采用 `AGPLv3` 协议开源。为了整个社区的良性发展，我们**强烈建议**您做到以下几点：
+`Mikoto-Pixiv` 采用 `AGPLv3` 协议开源。为了整个社区的良性发展，我们**强烈建议**您做到以下几点：
 
-- **间接接触（包括但不限于使用 `Http API` 或 跨进程技术）到 `mikoto-pixiv` 的软件使用 `AGPLv3` 开源**
+- **间接接触（包括但不限于使用 `Http API` 或 跨进程技术）到 `Mikoto-Pixiv` 的软件使用 `AGPLv3` 开源**
 - **不鼓励，不支持一切商业使用**
 
 鉴于项目的特殊性，开发团队可能在任何时间**停止更新**或**删除项目**。
