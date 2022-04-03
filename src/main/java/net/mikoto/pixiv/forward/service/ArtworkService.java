@@ -2,6 +2,7 @@ package net.mikoto.pixiv.forward.service;
 
 
 import net.mikoto.pixiv.api.pojo.Artwork;
+import net.mikoto.pixiv.forward.exception.ArtworkException;
 
 import java.io.IOException;
 
@@ -17,8 +18,9 @@ public interface ArtworkService {
      * @return An artwork object.
      * @throws IOException          IOException.
      * @throws InterruptedException An error.
+     * @throws ArtworkException     An error.
      */
-    Artwork getPixivDataById(int artworkId) throws IOException, InterruptedException;
+    Artwork getPixivDataById(int artworkId) throws IOException, InterruptedException, ArtworkException;
 
     /**
      * Get the image by url.

@@ -3,6 +3,7 @@ package net.mikoto.pixiv.forward.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import net.mikoto.pixiv.api.pojo.Artwork;
+import net.mikoto.pixiv.forward.exception.ArtworkException;
 import net.mikoto.pixiv.forward.service.ArtworkService;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -23,6 +24,7 @@ public class ArtworkServiceImpl implements ArtworkService {
             .retryOnConnectionFailure(true)
             .build();
     private static final int SUCCESS_CODE = 200;
+    private static final int NOT_FIND_CODE = 404;
 
     /**
      * Get a pixiv data by the artwork id.
@@ -31,7 +33,7 @@ public class ArtworkServiceImpl implements ArtworkService {
      * @return An artwork object.
      */
     @Override
-    public Artwork getPixivDataById(int artworkId) throws IOException, InterruptedException {
+    public Artwork getPixivDataById(int artworkId) throws IOException, InterruptedException, ArtworkException {
         Artwork artwork = new Artwork();
         // build request
         Request artworkRequest = new Request.Builder()
@@ -92,11 +94,13 @@ public class ArtworkServiceImpl implements ArtworkService {
 
                 return artwork;
             } else {
-                return null;
+                throw new ArtworkException(jsonObject.getString("message"));
             }
+        } else if (artworkResponse.code() == NOT_FIND_CODE) {
+            JSONObject jsonObject = JSON.parseObject(Objects.requireNonNull(artworkResponse.body()).string());
+            throw new ArtworkException(jsonObject.getString("message"));
         } else {
-            Thread.sleep(500);
-            return getPixivDataById(artworkId);
+            throw new ArtworkException("Http response code: " + artworkResponse.code());
         }
     }
 
