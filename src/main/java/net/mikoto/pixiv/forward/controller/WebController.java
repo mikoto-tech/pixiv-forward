@@ -16,11 +16,14 @@ import static net.mikoto.pixiv.forward.constant.Properties.MAIN_PROPERTIES;
  * @date 2022/3/19 19:36
  */
 @RestController
+@RequestMapping(
+        FORWARD_WEB
+)
 public class WebController implements PublicKey {
     private static final String RSA_PUBLIC_KEY = "RSA_PUBLIC_KEY";
 
     @RequestMapping(
-            value = FORWARD_WEB,
+            value = "",
             method = RequestMethod.GET
     )
     public String forwardHttpApi() {
@@ -28,7 +31,7 @@ public class WebController implements PublicKey {
     }
 
     @RequestMapping(
-            value = FORWARD_WEB + FORWARD_WEB_PUBLIC_KEY,
+            value = FORWARD_WEB_PUBLIC_KEY,
             method = RequestMethod.GET
     )
     @Override

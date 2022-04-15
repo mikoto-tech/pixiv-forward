@@ -8,8 +8,10 @@ import net.mikoto.pixiv.forward.service.ArtworkService;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -17,7 +19,9 @@ import java.util.*;
  * Created at 2:45:41, 2021/10/3
  * Project: pixiv-forward
  */
+@Service("artworkService")
 public class ArtworkServiceImpl implements ArtworkService {
+    private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static final String ERROR = "error";
     private static final String PIXIV_ARTWORK_API = "https://www.pixiv.net/ajax/illust/";
     private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient.Builder()
@@ -33,7 +37,7 @@ public class ArtworkServiceImpl implements ArtworkService {
      * @return An artwork object.
      */
     @Override
-    public Artwork getPixivDataById(int artworkId) throws IOException, InterruptedException, ArtworkException {
+    public Artwork getPixivDataById(int artworkId) throws IOException {
         Artwork artwork = new Artwork();
         // build request
         Request artworkRequest = new Request.Builder()
@@ -91,6 +95,7 @@ public class ArtworkServiceImpl implements ArtworkService {
                 }
                 artwork.setGrading(grading);
                 artwork.setTags(tags.toArray(new String[0]));
+                artwork.setPatchDate(SIMPLE_DATE_FORMAT.format(new Date()));
 
                 return artwork;
             } else {

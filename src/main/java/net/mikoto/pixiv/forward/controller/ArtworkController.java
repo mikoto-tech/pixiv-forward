@@ -5,8 +5,8 @@ import net.mikoto.pixiv.api.http.forward.artwork.GetImage;
 import net.mikoto.pixiv.api.http.forward.artwork.GetInformation;
 import net.mikoto.pixiv.api.pojo.Artwork;
 import net.mikoto.pixiv.forward.service.ArtworkService;
-import net.mikoto.pixiv.forward.service.impl.ArtworkServiceImpl;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,13 +27,21 @@ import static net.mikoto.pixiv.forward.util.Sha256Util.getSha256;
  * Project: pixiv-forward
  */
 @RestController
+@RequestMapping(
+        FORWARD_ARTWORK
+)
 public class ArtworkController implements GetInformation, GetImage {
-    private static final ArtworkService ARTWORK_SERVICE = new ArtworkServiceImpl();
+    @Qualifier("artworkService")
+    private final ArtworkService artworkService;
     private static final String PIXIV_FORWARD_KEY = "PIXIV_FORWARD_KEY";
     private static final String RSA_PRIVATE_KEY = "RSA_PRIVATE_KEY";
 
+    public ArtworkController(ArtworkService artworkService) {
+        this.artworkService = artworkService;
+    }
+
     @RequestMapping(
-            value = FORWARD_ARTWORK,
+            value = "",
             method = RequestMethod.GET
     )
     public String artworkHttpApi() {
@@ -41,7 +49,7 @@ public class ArtworkController implements GetInformation, GetImage {
     }
 
     @RequestMapping(
-            value = FORWARD_ARTWORK + FORWARD_ARTWORK_GET_INFORMATION,
+            value = FORWARD_ARTWORK_GET_INFORMATION,
             method = RequestMethod.GET
     )
     @Override
@@ -53,7 +61,7 @@ public class ArtworkController implements GetInformation, GetImage {
 
         if (key.equals(MAIN_PROPERTIES.getProperty(PIXIV_FORWARD_KEY))) {
             try {
-                Artwork artwork = ARTWORK_SERVICE.getPixivDataById(Integer.parseInt(artworkId));
+                Artwork artwork = artworkService.getPixivDataById(Integer.parseInt(artworkId));
                 if (artwork != null) {
                     JSONObject body = artwork.toJsonObject();
                     outputJson.put("body", body);
@@ -78,7 +86,7 @@ public class ArtworkController implements GetInformation, GetImage {
     }
 
     @RequestMapping(
-            value = FORWARD_ARTWORK + FORWARD_ARTWORK_GET_IMAGE,
+            value = FORWARD_ARTWORK_GET_IMAGE,
             method = RequestMethod.GET,
             produces = "image/jpeg"
     )
@@ -87,7 +95,7 @@ public class ArtworkController implements GetInformation, GetImage {
                                   @RequestParam @NotNull String key,
                                   @RequestParam String url) throws IOException, InterruptedException {
         if (key.equals(MAIN_PROPERTIES.getProperty(PIXIV_FORWARD_KEY))) {
-            return ARTWORK_SERVICE.getImage(url);
+            return artworkService.getImage(url);
         } else {
             return null;
         }
