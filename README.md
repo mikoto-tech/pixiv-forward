@@ -1,5 +1,7 @@
 # Mikoto-Pixiv-Forward
 
+[![wakatime](https://wakatime.com/badge/user/1881dd28-2018-456f-8c50-e897127472e4/project/316989a5-c9ab-44a8-80ae-49ad1dbf505c.svg)](https://wakatime.com/badge/user/1881dd28-2018-456f-8c50-e897127472e4/project/316989a5-c9ab-44a8-80ae-49ad1dbf505c)
+
 `Mikoto-Pixiv-Forward` 是为了
 
 1. 规避Pixiv的反爬虫机制
