@@ -5,6 +5,7 @@ import net.mikoto.pixiv.api.pojo.Artwork;
 import net.mikoto.pixiv.forward.exception.ArtworkException;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 /**
  * @author mikoto
@@ -12,23 +13,23 @@ import java.io.IOException;
  */
 public interface ArtworkService {
     /**
-     * Get a pixiv data by the artwork id.
+     * Get an artwork by the artwork id.
      *
      * @param artworkId The id of this artwork.
      * @return An artwork object.
-     * @throws IOException          IOException.
-     * @throws InterruptedException An error.
-     * @throws ArtworkException     An error.
+     * @throws IOException      An exception.
+     * @throws ArtworkException An exception.
+     * @throws ParseException   An exception.
      */
-    Artwork getPixivDataById(int artworkId) throws IOException, InterruptedException, ArtworkException;
+    Artwork getArtworkById(int artworkId) throws IOException, ArtworkException, ParseException;
 
     /**
      * Get the image by url.
      *
      * @param url The url of the image.
      * @return Image bytes.
-     * @throws IOException          An error.
-     * @throws InterruptedException An error.
+     * @throws IOException          An exception.
+     * @throws InterruptedException An exception.
      */
     byte[] getImage(String url) throws IOException, InterruptedException;
 }

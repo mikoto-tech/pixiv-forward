@@ -1,7 +1,7 @@
 package net.mikoto.pixiv.forward.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import net.mikoto.pixiv.api.pojo.Artwork;
 import net.mikoto.pixiv.forward.exception.ArtworkException;
 import net.mikoto.pixiv.forward.service.ArtworkService;
@@ -11,8 +11,13 @@ import okhttp3.Response;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.Objects;
+import java.util.StringJoiner;
+
+import static net.mikoto.pixiv.api.constant.Constants.USUAL_DATE_FORMAT;
+import static net.mikoto.pixiv.forward.constant.PixivApi.PIXIV_ARTWORK_API;
 
 /**
  * @author mikoto
@@ -21,81 +26,117 @@ import java.util.*;
  */
 @Service("artworkService")
 public class ArtworkServiceImpl implements ArtworkService {
-    private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static final String ERROR = "error";
-    private static final String PIXIV_ARTWORK_API = "https://www.pixiv.net/ajax/illust/";
     private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient.Builder()
             .retryOnConnectionFailure(true)
             .build();
     private static final int SUCCESS_CODE = 200;
     private static final int NOT_FIND_CODE = 404;
+    private static final String SERIES_NAV_DATA = "seriesNavData";
 
     /**
-     * Get a pixiv data by the artwork id.
+     * Get an artwork by the artwork id.
      *
      * @param artworkId The id of this artwork.
      * @return An artwork object.
+     * @throws IOException      An exception.
+     * @throws ArtworkException An exception.
+     * @throws ParseException   An exception.
      */
     @Override
-    public Artwork getPixivDataById(int artworkId) throws IOException {
+    public Artwork getArtworkById(int artworkId) throws IOException, ParseException, ArtworkException {
         Artwork artwork = new Artwork();
-        // build request
+        // build request.
         Request artworkRequest = new Request.Builder()
                 .url(PIXIV_ARTWORK_API + artworkId)
                 .build();
-        // execute a call
+        // execute a call.
         Response artworkResponse = OK_HTTP_CLIENT.newCall(artworkRequest).execute();
         if (artworkResponse.code() == SUCCESS_CODE) {
             JSONObject jsonObject = JSON.parseObject(Objects.requireNonNull(artworkResponse.body()).string());
 
-            if (!jsonObject.getBoolean(ERROR)) {
-                // 解析Json到PixivData对象
+            if (!jsonObject.getBooleanValue(ERROR)) {
                 JSONObject jsonBody = jsonObject.getJSONObject("body");
 
                 // 处理基础数据
-                artwork.setArtworkId(Integer.parseInt(jsonBody.getString(
-                        "illustId")));
+                artwork.setArtworkId(Integer.parseInt(jsonBody.getString("illustId")));
                 artwork.setArtworkTitle(jsonBody.getString("illustTitle"));
-                artwork.setAuthorId(Integer.parseInt(jsonBody.getString(
-                        "userId")));
-                artwork.setAuthorName(jsonBody.getString("userName"));
+                artwork.setAuthorId(Integer.parseInt(jsonBody.getString("userId")));
                 artwork.setDescription(jsonBody.getString("description"));
-                artwork.setPageCount(jsonBody.getInteger("pageCount"));
-                artwork.setBookmarkCount(jsonBody.getInteger(
-                        "bookmarkCount"));
-                artwork.setLikeCount(jsonBody.getInteger("likeCount"));
-                artwork.setViewCount(jsonBody.getInteger("viewCount"));
-                artwork.setCreateDate(jsonBody.getString("createDate"));
-                artwork.setUpdateDate(jsonBody.getString("uploadDate"));
+                artwork.setPageCount(jsonBody.getIntValue("pageCount"));
+                artwork.setBookmarkCount(jsonBody.getIntValue("bookmarkCount"));
+                artwork.setLikeCount(jsonBody.getIntValue("likeCount"));
+                artwork.setViewCount(jsonBody.getIntValue("viewCount"));
+                artwork.setCreateTime(USUAL_DATE_FORMAT.parse(jsonBody.getString("createDate")));
+                artwork.setUpdateTime(USUAL_DATE_FORMAT.parse(jsonBody.getString("uploadDate")));
+                artwork.setPatchTime(new Date());
 
                 // 处理链接
-                Map<String, String> urls = new HashMap<>(5);
-                urls.put("mini", jsonBody.getJSONObject("urls").getString("mini"));
-                urls.put("thumb", jsonBody.getJSONObject("urls").getString("thumb"));
-                urls.put("small", jsonBody.getJSONObject("urls").getString("small"));
-                urls.put("regular", jsonBody.getJSONObject("urls").getString("regular"));
-                urls.put("original", jsonBody.getJSONObject("urls").getString(
-                        "original"));
-                artwork.setIllustUrls(urls);
+                artwork.setIllustUrlMini(jsonBody.getJSONObject("urls").getString("mini"));
+                artwork.setIllustUrlOriginal(jsonBody.getJSONObject("urls").getString("original"));
+                artwork.setIllustUrlRegular(jsonBody.getJSONObject("urls").getString("regular"));
+                artwork.setIllustUrlThumb(jsonBody.getJSONObject("urls").getString("thumb"));
+                artwork.setIllustUrlSmall(jsonBody.getJSONObject("urls").getString("small"));
 
                 // 根据标签判定年龄分级
-                Set<String> tags = new HashSet<>();
                 int grading = 0;
-                for (int i = 0; i <
-                        jsonBody.getJSONObject("tags").getJSONArray("tags").size(); i++) {
+
+                StringJoiner stringJoiner = new StringJoiner(";");
+                for (int i = 0;
+                     i <
+                             jsonBody
+                                     .getJSONObject("tags")
+                                     .getJSONArray("tags")
+                                     .size();
+                     i++) {
                     String tag =
-                            jsonBody.getJSONObject("tags").getJSONArray("tags").getJSONObject(i).getString("tag");
+                            jsonBody.getJSONObject("tags")
+                                    .getJSONArray("tags")
+                                    .getJSONObject(i)
+                                    .getString("tag");
                     if ("R-18".equals(tag)) {
                         grading = 1;
                     } else if ("R-18G".equals(tag)) {
                         grading = 2;
                     }
 
-                    tags.add(tag);
+                    stringJoiner.add(tag);
                 }
                 artwork.setGrading(grading);
-                artwork.setTags(tags.toArray(new String[0]));
-                artwork.setPatchDate(SIMPLE_DATE_FORMAT.format(new Date()));
+                artwork.setTags(stringJoiner.toString());
+
+                // 处理系列作品数据
+                JSONObject seriesJson = jsonBody.getJSONObject(SERIES_NAV_DATA);
+                if (seriesJson != null) {
+                    artwork.setHasSeries(true);
+                    artwork.setSeriesId(Integer.parseInt(seriesJson.getString("seriesId")));
+                    artwork.setOrder(seriesJson.getIntValue("order"));
+                    JSONObject previousJson = seriesJson.getJSONObject("prev");
+                    if (previousJson != null) {
+                        artwork.setPreviousArtworkId(Integer.parseInt(previousJson.getString("id")));
+                        artwork.setPreviousArtworkTitle(previousJson.getString("title"));
+                    } else {
+                        artwork.setPreviousArtworkId(0);
+                        artwork.setPreviousArtworkTitle(null);
+                    }
+
+                    JSONObject nextJson = seriesJson.getJSONObject("next");
+                    if (nextJson != null) {
+                        artwork.setNextArtworkId(Integer.parseInt(nextJson.getString("id")));
+                        artwork.setNextArtworkTitle(nextJson.getString("title"));
+                    } else {
+                        artwork.setNextArtworkId(0);
+                        artwork.setNextArtworkTitle(null);
+                    }
+                } else {
+                    artwork.setHasSeries(false);
+                    artwork.setSeriesId(0);
+                    artwork.setOrder(0);
+                    artwork.setNextArtworkId(0);
+                    artwork.setNextArtworkTitle(null);
+                    artwork.setPreviousArtworkId(0);
+                    artwork.setPreviousArtworkTitle(null);
+                }
 
                 return artwork;
             } else {
@@ -114,6 +155,8 @@ public class ArtworkServiceImpl implements ArtworkService {
      *
      * @param url The url of the image.
      * @return Image bytes.
+     * @throws IOException          An exception.
+     * @throws InterruptedException An exception.
      */
     @Override
     public byte[] getImage(String url) throws IOException, InterruptedException {
@@ -132,6 +175,4 @@ public class ArtworkServiceImpl implements ArtworkService {
             return getImage(url);
         }
     }
-
-
 }

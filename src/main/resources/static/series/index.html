@@ -5,7 +5,7 @@
     <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
           name="viewport">
     <meta content="ie=edge" http-equiv="X-UA-Compatible">
-    <title>Mikoto-Pixiv-Forward</title>
+    <title>Mikoto-Pixiv-Forward-Series</title>
     <style>
         #footer {
             position: absolute;
@@ -55,24 +55,17 @@
 </h1>
 <div id="menu">
     <h1>
-        Index of /
+        Index of /series
     </h1>
-    <button onclick="window.location.href='/artwork'">
-        /artwork
+    <button onclick="window.location.href='/series/getInformation'" style="width: 150px;">
+        /getInformation
     </button>
-    Artwork service.
-    <br>
-    <br>
-    <button onclick="window.location.href='/series'">
-        /series
-    </button>
-    Series service.
-    <br>
-    <br>
-    <button onclick="window.location.href='/web'">
-        /web
-    </button>
-    Web service.
+    Get the information of the series.
+    <ul>
+        <li>Method: Get</li>
+        <li>Api: /getInformation?key=[Your Pixiv Forward Key]&artworkId=[The id of this artwork]</li>
+        <li>ContentType: application/json;charset=UTF-8</li>
+    </ul>
 </div>
 <div id="footer">
     <ul>

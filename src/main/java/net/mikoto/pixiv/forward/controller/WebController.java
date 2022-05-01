@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import static net.mikoto.pixiv.api.http.HttpApi.FORWARD_WEB;
 import static net.mikoto.pixiv.api.http.HttpApi.FORWARD_WEB_PUBLIC_KEY;
-import static net.mikoto.pixiv.forward.constant.Properties.MAIN_PROPERTIES;
+import static net.mikoto.pixiv.forward.constant.Constant.MAIN_PROPERTIES;
 
 /**
  * @author mikoto
