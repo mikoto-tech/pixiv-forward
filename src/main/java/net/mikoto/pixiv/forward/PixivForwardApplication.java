@@ -17,7 +17,6 @@ import static net.mikoto.pixiv.api.util.FileUtil.createDir;
 import static net.mikoto.pixiv.api.util.FileUtil.createFile;
 import static net.mikoto.pixiv.api.util.RsaUtil.getKeyPair;
 import static net.mikoto.pixiv.forward.constant.Constant.MAIN_PROPERTIES;
-import static net.mikoto.pixiv.forward.constant.Constant.PIXIV_FORWARD_UUID;
 
 /**
  * @author mikoto
@@ -42,8 +41,6 @@ public class PixivForwardApplication {
             System.out.println(RSA_PRIVATE_KEY + ":" + MAIN_PROPERTIES.getProperty(RSA_PRIVATE_KEY));
             System.out.println(RSA_PUBLIC_KEY + ":" + MAIN_PROPERTIES.getProperty(RSA_PUBLIC_KEY));
         }
-
-        System.out.println("UUID:" + PIXIV_FORWARD_UUID);
 
         SpringApplication.run(PixivForwardApplication.class, args);
     }
