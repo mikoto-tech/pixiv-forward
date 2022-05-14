@@ -62,6 +62,7 @@ public class ArtworkServiceImpl implements ArtworkService {
                 artwork.setArtworkId(Integer.parseInt(jsonBody.getString("illustId")));
                 artwork.setArtworkTitle(jsonBody.getString("illustTitle"));
                 artwork.setAuthorId(Integer.parseInt(jsonBody.getString("userId")));
+                artwork.setAuthorName(jsonBody.getString("userName"));
                 artwork.setDescription(jsonBody.getString("description"));
                 artwork.setPageCount(jsonBody.getIntValue("pageCount"));
                 artwork.setBookmarkCount(jsonBody.getIntValue("bookmarkCount"));
@@ -110,7 +111,7 @@ public class ArtworkServiceImpl implements ArtworkService {
                 if (seriesJson != null) {
                     artwork.setHasSeries(true);
                     artwork.setSeriesId(Integer.parseInt(seriesJson.getString("seriesId")));
-                    artwork.setOrder(seriesJson.getIntValue("order"));
+                    artwork.setSeriesOrder(seriesJson.getIntValue("order"));
                     JSONObject previousJson = seriesJson.getJSONObject("prev");
                     if (previousJson != null) {
                         artwork.setPreviousArtworkId(Integer.parseInt(previousJson.getString("id")));
@@ -131,7 +132,7 @@ public class ArtworkServiceImpl implements ArtworkService {
                 } else {
                     artwork.setHasSeries(false);
                     artwork.setSeriesId(0);
-                    artwork.setOrder(0);
+                    artwork.setSeriesOrder(0);
                     artwork.setNextArtworkId(0);
                     artwork.setNextArtworkTitle(null);
                     artwork.setPreviousArtworkId(0);
