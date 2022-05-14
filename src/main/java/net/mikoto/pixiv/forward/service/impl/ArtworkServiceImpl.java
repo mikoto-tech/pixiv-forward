@@ -54,7 +54,7 @@ public class ArtworkServiceImpl implements ArtworkService {
         Response artworkResponse = OK_HTTP_CLIENT.newCall(artworkRequest).execute();
         if (artworkResponse.code() == SUCCESS_CODE) {
             JSONObject jsonObject = JSON.parseObject(Objects.requireNonNull(artworkResponse.body()).string());
-
+            artworkResponse.close();
             if (!jsonObject.getBooleanValue(ERROR)) {
                 JSONObject jsonBody = jsonObject.getJSONObject("body");
 
@@ -144,8 +144,10 @@ public class ArtworkServiceImpl implements ArtworkService {
             }
         } else if (artworkResponse.code() == NOT_FIND_CODE) {
             JSONObject jsonObject = JSON.parseObject(Objects.requireNonNull(artworkResponse.body()).string());
+            artworkResponse.close();
             throw new ArtworkException(jsonObject.getString("message"));
         } else {
+            artworkResponse.close();
             throw new ArtworkException("Http response code: " + artworkResponse.code());
         }
     }

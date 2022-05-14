@@ -43,6 +43,7 @@ public class SeriesServiceImpl implements SeriesService {
         Response seriesResponse = OK_HTTP_CLIENT.newCall(seriesRequest).execute();
         if (seriesResponse.code() == SUCCESS_CODE) {
             JSONObject jsonObject = JSON.parseObject(Objects.requireNonNull(seriesResponse.body()).string());
+            seriesResponse.close();
             if (!jsonObject.getBooleanValue(ERROR)) {
                 // 获取body
                 JSONObject jsonBody = jsonObject.getJSONObject("body");
@@ -75,8 +76,10 @@ public class SeriesServiceImpl implements SeriesService {
 
         } else if (seriesResponse.code() == NOT_FIND_CODE) {
             JSONObject jsonObject = JSON.parseObject(Objects.requireNonNull(seriesResponse.body()).string());
+            seriesResponse.close();
             throw new SeriesException(jsonObject.getString("message"));
         } else {
+            seriesResponse.close();
             throw new SeriesException("Http response code: " + seriesResponse.code());
         }
     }

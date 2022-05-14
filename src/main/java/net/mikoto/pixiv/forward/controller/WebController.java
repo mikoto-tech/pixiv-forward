@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import static net.mikoto.pixiv.api.http.HttpApi.FORWARD_WEB;
 import static net.mikoto.pixiv.api.http.HttpApi.FORWARD_WEB_PUBLIC_KEY;
 import static net.mikoto.pixiv.forward.constant.Constant.MAIN_PROPERTIES;
+import static net.mikoto.pixiv.forward.constant.Constant.RSA_PUBLIC_KEY;
 
 /**
  * @author mikoto
@@ -20,8 +21,6 @@ import static net.mikoto.pixiv.forward.constant.Constant.MAIN_PROPERTIES;
         FORWARD_WEB
 )
 public class WebController implements PublicKey {
-    private static final String RSA_PUBLIC_KEY = "RSA_PUBLIC_KEY";
-
     @RequestMapping(
             value = "",
             method = RequestMethod.GET
