@@ -2,8 +2,7 @@ package net.mikoto.pixiv.forward.controller;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
-import net.mikoto.pixiv.api.http.forward.series.GetInformation;
-import net.mikoto.pixiv.api.pojo.Series;
+import net.mikoto.pixiv.api.model.Series;
 import net.mikoto.pixiv.forward.service.SeriesService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ import static net.mikoto.pixiv.forward.constant.Constant.MAIN_PROPERTIES;
 @RequestMapping(
         FORWARD_SERIES
 )
-public class SeriesController implements GetInformation {
+public class SeriesController {
     private static final String PIXIV_FORWARD_KEY = "PIXIV_FORWARD_KEY";
     private static final String RSA_PRIVATE_KEY = "RSA_PRIVATE_KEY";
     @Qualifier("seriesService")
@@ -60,7 +59,6 @@ public class SeriesController implements GetInformation {
             value = FORWARD_SERIES_GET_INFORMATION,
             method = RequestMethod.GET
     )
-    @Override
     public JSONObject getInformationHttpApi(@NotNull HttpServletResponse response, @NotNull String key, int seriesId) {
         response.setContentType("application/json;charset=UTF-8");
         JSONObject outputJson = new JSONObject();

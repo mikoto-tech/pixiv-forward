@@ -1,11 +1,8 @@
 package net.mikoto.pixiv.forward.controller;
 
-import net.mikoto.pixiv.api.http.forward.web.PublicKey;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletResponse;
 
 import static net.mikoto.pixiv.api.http.HttpApi.FORWARD_WEB;
 import static net.mikoto.pixiv.api.http.HttpApi.FORWARD_WEB_PUBLIC_KEY;
@@ -20,7 +17,7 @@ import static net.mikoto.pixiv.forward.constant.Constant.RSA_PUBLIC_KEY;
 @RequestMapping(
         FORWARD_WEB
 )
-public class WebController implements PublicKey {
+public class WebController {
     @RequestMapping(
             value = "",
             method = RequestMethod.GET
@@ -33,8 +30,7 @@ public class WebController implements PublicKey {
             value = FORWARD_WEB_PUBLIC_KEY,
             method = RequestMethod.GET
     )
-    @Override
-    public String publicKeyHttpApi(HttpServletResponse response) {
+    public String publicKeyHttpApi() {
         return MAIN_PROPERTIES.getProperty(RSA_PUBLIC_KEY);
     }
 }

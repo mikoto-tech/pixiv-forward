@@ -1,6 +1,6 @@
 package net.mikoto.pixiv.forward.service;
 
-import net.mikoto.pixiv.api.pojo.Series;
+import net.mikoto.pixiv.api.model.Series;
 import net.mikoto.pixiv.forward.exception.SeriesException;
 
 import java.io.IOException;

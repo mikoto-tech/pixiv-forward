@@ -2,7 +2,7 @@ package net.mikoto.pixiv.forward.service.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
-import net.mikoto.pixiv.api.pojo.Artwork;
+import net.mikoto.pixiv.api.model.Artwork;
 import net.mikoto.pixiv.forward.exception.ArtworkException;
 import net.mikoto.pixiv.forward.service.ArtworkService;
 import okhttp3.OkHttpClient;

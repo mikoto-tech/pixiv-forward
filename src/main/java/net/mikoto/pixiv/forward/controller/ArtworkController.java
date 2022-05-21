@@ -4,14 +4,13 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import net.mikoto.pixiv.api.http.forward.artwork.GetImage;
 import net.mikoto.pixiv.api.http.forward.artwork.GetInformation;
-import net.mikoto.pixiv.api.pojo.Artwork;
+import net.mikoto.pixiv.api.model.Artwork;
 import net.mikoto.pixiv.forward.service.ArtworkService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
@@ -52,13 +51,12 @@ public class ArtworkController implements GetInformation, GetImage {
     }
 
     @RequestMapping(
-            value = FORWARD_ARTWORK_GET_INFORMATION,
-            method = RequestMethod.GET
+            value = FORWARD_ARTWORK_GET_INFORMATION
     )
     @Override
     public JSONObject getInformationHttpApi(@NotNull HttpServletResponse response,
-                                            @RequestParam @NotNull String key,
-                                            @RequestParam int artworkId) {
+                                            @NotNull String key,
+                                            int artworkId) {
         response.setContentType("application/json;charset=UTF-8");
         JSONObject outputJson = new JSONObject();
 
@@ -89,14 +87,13 @@ public class ArtworkController implements GetInformation, GetImage {
     }
 
     @RequestMapping(
-            value = FORWARD_ARTWORK_GET_IMAGE,
-            method = RequestMethod.GET,
-            produces = "image/jpeg"
+            value = FORWARD_ARTWORK_GET_IMAGE
     )
     @Override
     public byte[] getImageHttpApi(@NotNull HttpServletResponse response,
-                                  @RequestParam @NotNull String key,
-                                  @RequestParam String url) throws IOException, InterruptedException {
+                                  @NotNull String key,
+                                  String url) throws IOException, InterruptedException {
+        response.setContentType("image/jpeg");
         if (key.equals(MAIN_PROPERTIES.getProperty(PIXIV_FORWARD_KEY))) {
             return artworkService.getImage(url);
         } else {

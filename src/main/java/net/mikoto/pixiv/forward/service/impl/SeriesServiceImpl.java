@@ -3,7 +3,7 @@ package net.mikoto.pixiv.forward.service.impl;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import net.mikoto.pixiv.api.pojo.Series;
+import net.mikoto.pixiv.api.model.Series;
 import net.mikoto.pixiv.forward.exception.SeriesException;
 import net.mikoto.pixiv.forward.service.SeriesService;
 import okhttp3.OkHttpClient;
