@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.Objects;
 
 import static net.mikoto.pixiv.api.constant.Constants.USUAL_DATE_FORMAT;
-import static net.mikoto.pixiv.forward.constant.PixivApi.PIXIV_SERIES_API;
 
 /**
  * @author mikoto
@@ -31,6 +30,7 @@ public class SeriesServiceImpl implements SeriesService {
     private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient.Builder()
             .retryOnConnectionFailure(true)
             .build();
+    public static final String PIXIV_SERIES_API = "https://www.pixiv.net/ajax/series/";
 
     @Override
     public Series getSeriesById(int seriesId) throws IOException, SeriesException, ParseException {

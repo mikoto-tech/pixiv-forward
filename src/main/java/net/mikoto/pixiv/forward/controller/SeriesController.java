@@ -7,6 +7,7 @@ import net.mikoto.pixiv.forward.service.SeriesService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,10 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import static net.mikoto.pixiv.api.http.HttpApi.FORWARD_SERIES;
 import static net.mikoto.pixiv.api.http.HttpApi.FORWARD_SERIES_GET_INFORMATION;
-import static net.mikoto.pixiv.api.util.RsaUtil.getPrivateKey;
-import static net.mikoto.pixiv.api.util.RsaUtil.sign;
-import static net.mikoto.pixiv.api.util.Sha256Util.getSha256;
-import static net.mikoto.pixiv.forward.constant.Constant.MAIN_PROPERTIES;
 
 /**
  * @author mikoto
@@ -29,10 +26,10 @@ import static net.mikoto.pixiv.forward.constant.Constant.MAIN_PROPERTIES;
         FORWARD_SERIES
 )
 public class SeriesController {
-    private static final String PIXIV_FORWARD_KEY = "PIXIV_FORWARD_KEY";
-    private static final String RSA_PRIVATE_KEY = "RSA_PRIVATE_KEY";
     @Qualifier("seriesService")
     private final SeriesService seriesService;
+    @Value("${mikoto.pixiv.forward.key}")
+    private String forwardKey;
 
     @Autowired
     public SeriesController(SeriesService seriesService) {
@@ -63,13 +60,12 @@ public class SeriesController {
         response.setContentType("application/json;charset=UTF-8");
         JSONObject outputJson = new JSONObject();
 
-        if (key.equals(MAIN_PROPERTIES.getProperty(PIXIV_FORWARD_KEY))) {
+        if (key.equals(forwardKey)) {
             try {
                 Series series = seriesService.getSeriesById(seriesId);
                 if (series != null) {
                     JSONObject body = JSON.parseObject(JSON.toJSONString(series));
                     outputJson.put("body", body);
-                    outputJson.put("sign", sign(getSha256(body.toJSONString()), getPrivateKey(MAIN_PROPERTIES.getProperty(RSA_PRIVATE_KEY))));
                     outputJson.put("success", true);
                     outputJson.put("message", "");
                 } else {

@@ -17,7 +17,6 @@ import java.util.Objects;
 import java.util.StringJoiner;
 
 import static net.mikoto.pixiv.api.constant.Constants.USUAL_DATE_FORMAT;
-import static net.mikoto.pixiv.forward.constant.PixivApi.PIXIV_ARTWORK_API;
 
 /**
  * @author mikoto
@@ -33,6 +32,7 @@ public class ArtworkServiceImpl implements ArtworkService {
     private static final int SUCCESS_CODE = 200;
     private static final int NOT_FIND_CODE = 404;
     private static final String SERIES_NAV_DATA = "seriesNavData";
+    public static final String PIXIV_ARTWORK_API = "https://www.pixiv.net/ajax/illust/";
 
     /**
      * Get an artwork by the artwork id.
@@ -158,11 +158,10 @@ public class ArtworkServiceImpl implements ArtworkService {
      *
      * @param url The url of the image.
      * @return Image bytes.
-     * @throws IOException          An exception.
-     * @throws InterruptedException An exception.
+     * @throws IOException An exception.
      */
     @Override
-    public byte[] getImage(String url) throws IOException, InterruptedException {
+    public byte[] getImage(String url) throws IOException {
         // build request
         Request artworkRequest = new Request.Builder()
                 .url(url)
@@ -171,11 +170,8 @@ public class ArtworkServiceImpl implements ArtworkService {
                 .build();
         // execute a call
         Response artworkResponse = OK_HTTP_CLIENT.newCall(artworkRequest).execute();
-        if (artworkResponse.code() == SUCCESS_CODE) {
-            return Objects.requireNonNull(artworkResponse.body()).bytes();
-        } else {
-            Thread.sleep(500);
-            return getImage(url);
-        }
+        byte[] bytes = Objects.requireNonNull(artworkResponse.body()).bytes();
+        artworkResponse.close();
+        return bytes;
     }
 }
