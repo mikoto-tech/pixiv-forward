@@ -25,14 +25,21 @@ import static net.mikoto.pixiv.api.constant.Constants.USUAL_DATE_FORMAT;
  */
 @Service("artworkService")
 public class ArtworkServiceImpl implements ArtworkService {
-    private static final String ERROR = "error";
+    /**
+     * Instances
+     */
     private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient.Builder()
             .retryOnConnectionFailure(true)
             .build();
+
+    /**
+     * Constants
+     */
     private static final int SUCCESS_CODE = 200;
     private static final int NOT_FIND_CODE = 404;
+    private static final String ERROR = "error";
     private static final String SERIES_NAV_DATA = "seriesNavData";
-    public static final String PIXIV_ARTWORK_API = "https://www.pixiv.net/ajax/illust/";
+    private static final String PIXIV_ARTWORK_API = "https://www.pixiv.net/ajax/illust/";
 
     /**
      * Get an artwork by the artwork id.

@@ -24,13 +24,20 @@ import static net.mikoto.pixiv.api.constant.Constants.USUAL_DATE_FORMAT;
  */
 @Service("seriesService")
 public class SeriesServiceImpl implements SeriesService {
-    private static final int SUCCESS_CODE = 200;
-    private static final int NOT_FIND_CODE = 404;
-    private static final String ERROR = "error";
+    /**
+     * Instances
+     */
     private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient.Builder()
             .retryOnConnectionFailure(true)
             .build();
-    public static final String PIXIV_SERIES_API = "https://www.pixiv.net/ajax/series/";
+
+    /**
+     * Constants
+     */
+    private static final int SUCCESS_CODE = 200;
+    private static final int NOT_FIND_CODE = 404;
+    private static final String ERROR = "error";
+    private static final String PIXIV_SERIES_API = "https://www.pixiv.net/ajax/series/";
 
     @Override
     public Series getSeriesById(int seriesId) throws IOException, SeriesException, ParseException {

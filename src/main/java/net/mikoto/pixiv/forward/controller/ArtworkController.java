@@ -29,9 +29,20 @@ import static net.mikoto.pixiv.api.http.HttpApi.*;
         FORWARD_ARTWORK
 )
 public class ArtworkController implements GetInformation, GetImage {
+    /**
+     * Constants
+     */
+    private static final String PIXIV_IMAGE_URL = "https://i.pximg.net";
+
+    /**
+     * Instances
+     */
     @Qualifier("artworkService")
     private final ArtworkService artworkService;
-    public static final String PIXIV_IMAGE_URL = "https://i.pximg.net";
+
+    /**
+     * Variables
+     */
     @Value("${mikoto.pixiv.forward.key}")
     private String forwardKey;
 

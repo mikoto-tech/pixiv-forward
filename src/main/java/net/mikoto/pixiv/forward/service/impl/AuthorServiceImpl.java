@@ -10,6 +10,11 @@ import org.springframework.stereotype.Service;
  */
 @Service("authorService")
 public class AuthorServiceImpl implements AuthorService {
+    /**
+     * Constants
+     */
+    private static final String PIXIV_AUTHOR_API = "https://www.pixiv.net/ajax/user/";
+
     @Override
     public Author getAuthorById(int authorId) {
         return null;

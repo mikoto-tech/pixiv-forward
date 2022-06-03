@@ -26,8 +26,15 @@ import static net.mikoto.pixiv.api.http.HttpApi.FORWARD_SERIES_GET_INFORMATION;
         FORWARD_SERIES
 )
 public class SeriesController {
+    /**
+     * Instances
+     */
     @Qualifier("seriesService")
     private final SeriesService seriesService;
+
+    /**
+     * Variables
+     */
     @Value("${mikoto.pixiv.forward.key}")
     private String forwardKey;
 
