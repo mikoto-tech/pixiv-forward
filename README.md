@@ -6,7 +6,7 @@
 
 1. 规避Pixiv的反爬虫机制
 2. 对于无法连接上 [pixiv](https://www.pixiv.net) 的用户的一种替代解决方案
-3. 确保进入`Mikoto-Pixiv`数据网络的`Artwork`数据准确无误
+3. 确保进入`Mikoto-Pixiv` 数据网络的 `Artwork` 数据准确无误
 4. 减少单一主机的数据负担
 
 ## 如何使用?
@@ -20,27 +20,10 @@
 执行以下命令(需提前安装[Java](https://openjdk.java.net/))
 
 ```bash
-java -jar pixiv-forward-(version).jar
+java -jar pixiv-forward-(version).jar --mikoto.pixiv.forward.key=[Your_Pixiv_Forward_Key]
 ```
 
-### Step.3
-
-程序此时会自动在当前目录生成 `config` 文件夹, 并在其中创建 `config.properties` 文件.
-
-此时 您可以:
-
-1. 修改其中的 `PIXIV_FORWARD_KEY` 用于您的`Pixiv-Forward`的`Key`
-2. 修改其中的 `RSA_PUBLIC_KEY` 和 `RSA_PRIVATE_KEY` 用于数据的签名
-
-### Step.4
-
-此时 您只需要重新执行
-
-```bash
-java -jar pixiv-forward-(version).jar
-```
-
-便可以享受`Pixiv-Forward`所带来的便利了!
+便可以享受 `Pixiv-Forward` 所带来的便利了!
 
 ## 声明
 
