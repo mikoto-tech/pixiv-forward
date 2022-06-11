@@ -40,6 +40,7 @@ public class ArtworkServiceImpl implements ArtworkService {
     private static final String ERROR = "error";
     private static final String SERIES_NAV_DATA = "seriesNavData";
     private static final String PIXIV_ARTWORK_API = "https://www.pixiv.net/ajax/illust/";
+    private static final String PIXIV_IMAGE_URL = "https://i.pximg.net";
 
     /**
      * Get an artwork by the artwork id.
@@ -80,11 +81,11 @@ public class ArtworkServiceImpl implements ArtworkService {
                 artwork.setPatchTime(new Date());
 
                 // 处理链接
-                artwork.setIllustUrlMini(jsonBody.getJSONObject("urls").getString("mini"));
-                artwork.setIllustUrlOriginal(jsonBody.getJSONObject("urls").getString("original"));
-                artwork.setIllustUrlRegular(jsonBody.getJSONObject("urls").getString("regular"));
-                artwork.setIllustUrlThumb(jsonBody.getJSONObject("urls").getString("thumb"));
-                artwork.setIllustUrlSmall(jsonBody.getJSONObject("urls").getString("small"));
+                artwork.setIllustUrlMini(jsonBody.getJSONObject("urls").getString("mini").replace(PIXIV_IMAGE_URL, ""));
+                artwork.setIllustUrlOriginal(jsonBody.getJSONObject("urls").getString("original").replace(PIXIV_IMAGE_URL, ""));
+                artwork.setIllustUrlRegular(jsonBody.getJSONObject("urls").getString("regular").replace(PIXIV_IMAGE_URL, ""));
+                artwork.setIllustUrlThumb(jsonBody.getJSONObject("urls").getString("thumb").replace(PIXIV_IMAGE_URL, ""));
+                artwork.setIllustUrlSmall(jsonBody.getJSONObject("urls").getString("small").replace(PIXIV_IMAGE_URL, ""));
 
                 // 根据标签判定年龄分级
                 int grading = 0;
