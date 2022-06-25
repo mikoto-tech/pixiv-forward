@@ -43,14 +43,6 @@ public class SeriesController {
         this.seriesService = seriesService;
     }
 
-    @RequestMapping(
-            value = "",
-            method = RequestMethod.GET
-    )
-    public String seriesHttpApi() {
-        return "<script>window.location.href='" + FORWARD_SERIES + "/index.html'</script>";
-    }
-
     /**
      * Get information
      *

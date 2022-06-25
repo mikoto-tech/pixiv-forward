@@ -5,17 +5,15 @@ import com.alibaba.fastjson2.JSONObject;
 import net.mikoto.pixiv.api.http.forward.artwork.GetImage;
 import net.mikoto.pixiv.api.http.forward.artwork.GetInformation;
 import net.mikoto.pixiv.api.model.Artwork;
-import net.mikoto.pixiv.forward.service.ArtworkService;
+import net.mikoto.pixiv.direct.connector.DirectConnector;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 import static net.mikoto.pixiv.api.http.HttpApi.*;
 
@@ -37,8 +35,8 @@ public class ArtworkController implements GetInformation, GetImage {
     /**
      * Instances
      */
-    @Qualifier("artworkService")
-    private final ArtworkService artworkService;
+    @Qualifier
+    private final DirectConnector directConnector;
 
     /**
      * Variables
@@ -47,16 +45,8 @@ public class ArtworkController implements GetInformation, GetImage {
     private String forwardKey;
 
     @Autowired
-    public ArtworkController(ArtworkService artworkService) {
-        this.artworkService = artworkService;
-    }
-
-    @RequestMapping(
-            value = "",
-            method = RequestMethod.GET
-    )
-    public String artworkHttpApi() {
-        return "<script>window.location.href='" + FORWARD_ARTWORK + "/index.html'</script>";
+    public ArtworkController(DirectConnector directConnector) {
+        this.directConnector = directConnector;
     }
 
     @RequestMapping(
@@ -71,7 +61,7 @@ public class ArtworkController implements GetInformation, GetImage {
 
         if (key.equals(forwardKey)) {
             try {
-                Artwork artwork = artworkService.getArtworkById(artworkId);
+                Artwork artwork = directConnector.getArtwork(artworkId);
                 if (artwork != null) {
                     JSONObject body = JSON.parseObject(JSON.toJSONString(artwork));
                     outputJson.put("body", body);
@@ -101,9 +91,9 @@ public class ArtworkController implements GetInformation, GetImage {
     @Override
     public byte[] getImageHttpApi(@NotNull HttpServletResponse response,
                                   @NotNull String key,
-                                  String url) throws IOException, InterruptedException {
+                                  String url) {
         if (key.equals(forwardKey)) {
-            return artworkService.getImage(PIXIV_IMAGE_URL + url);
+            return directConnector.getImage(url);
         } else {
             return null;
         }

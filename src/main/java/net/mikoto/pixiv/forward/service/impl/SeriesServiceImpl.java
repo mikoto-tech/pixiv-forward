@@ -4,7 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import net.mikoto.pixiv.api.model.Series;
-import net.mikoto.pixiv.forward.exception.SeriesException;
+import net.mikoto.pixiv.forward.exception.PixivException;
 import net.mikoto.pixiv.forward.service.SeriesService;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -40,7 +40,7 @@ public class SeriesServiceImpl implements SeriesService {
     private static final String PIXIV_SERIES_API = "https://www.pixiv.net/ajax/series/";
 
     @Override
-    public Series getSeriesById(int seriesId) throws IOException, SeriesException, ParseException {
+    public Series getSeriesById(int seriesId) throws IOException, ParseException, PixivException {
         Series series = new Series();
         // build request.
         Request seriesRequest = new Request.Builder()
@@ -64,7 +64,7 @@ public class SeriesServiceImpl implements SeriesService {
                     }
                 }
                 if (seriesJson == null) {
-                    throw new SeriesException("Null series.");
+                    throw new NullPointerException("Null series.");
                 }
 
                 // 解析原始数据
@@ -78,16 +78,16 @@ public class SeriesServiceImpl implements SeriesService {
                 series.setPatchTime(new Date());
                 return series;
             } else {
-                throw new SeriesException(jsonObject.getString("message"));
+                throw new PixivException(jsonObject.getString("message"));
             }
 
         } else if (seriesResponse.code() == NOT_FIND_CODE) {
             JSONObject jsonObject = JSON.parseObject(Objects.requireNonNull(seriesResponse.body()).string());
             seriesResponse.close();
-            throw new SeriesException(jsonObject.getString("message"));
+            throw new IOException(jsonObject.getString("message"));
         } else {
             seriesResponse.close();
-            throw new SeriesException("Http response code: " + seriesResponse.code());
+            throw new IOException("Http response code: " + seriesResponse.code());
         }
     }
 }
