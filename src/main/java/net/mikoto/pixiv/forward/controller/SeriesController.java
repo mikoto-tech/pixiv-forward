@@ -57,11 +57,11 @@ public class SeriesController {
             value = FORWARD_SERIES_GET_INFORMATION,
             method = RequestMethod.GET
     )
-    public JSONObject getInformationHttpApi(@NotNull HttpServletResponse response, @NotNull String key, int seriesId) {
+    public JSONObject getInformationHttpApi(@NotNull HttpServletResponse response, String key, int seriesId) {
         response.setContentType("application/json;charset=UTF-8");
         JSONObject outputJson = new JSONObject();
 
-        if (keyEnable && key.equals(forwardKey)) {
+        if (!keyEnable || key.equals(forwardKey)) {
             try {
                 Series series = seriesService.getSeriesById(seriesId);
                 if (series != null) {

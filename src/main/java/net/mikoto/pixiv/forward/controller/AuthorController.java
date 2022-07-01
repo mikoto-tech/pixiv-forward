@@ -81,11 +81,11 @@ public class AuthorController implements GetInformation, GetProfile {
             value = FORWARD_AUTHOR_GET_PROFILE
     )
     @Override
-    public JSONObject getProfileHttpApi(@NotNull HttpServletResponse response, @NotNull String key, int authorId) throws Exception {
+    public JSONObject getProfileHttpApi(@NotNull HttpServletResponse response, String key, int authorId) throws Exception {
         response.setContentType("application/json;charset=UTF-8");
         JSONObject outputJson = new JSONObject();
 
-        if (keyEnable && key.equals(forwardKey)) {
+        if (!keyEnable || key.equals(forwardKey)) {
             try {
                 AuthorProfile author = authorService.getAuthorProfileById(authorId);
                 if (author != null) {

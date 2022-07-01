@@ -52,12 +52,12 @@ public class ArtworkController implements GetInformation, GetImage {
     )
     @Override
     public JSONObject getInformationHttpApi(@NotNull HttpServletResponse response,
-                                            @NotNull String key,
+                                            String key,
                                             int artworkId) {
         response.setContentType("application/json;charset=UTF-8");
         JSONObject outputJson = new JSONObject();
 
-        if (keyEnable && key.equals(forwardKey)) {
+        if (!keyEnable || key.equals(forwardKey)) {
             try {
                 Artwork artwork = directConnector.getArtwork(artworkId);
                 if (artwork != null) {
