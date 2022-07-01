@@ -37,6 +37,8 @@ public class AuthorController implements GetInformation, GetProfile {
      */
     @Value("${mikoto.pixiv.forward.key}")
     private String forwardKey;
+    @Value("${mikoto.pixiv.forward.key.enable}")
+    private boolean keyEnable;
 
     public AuthorController(AuthorService authorService) {
         this.authorService = authorService;
@@ -83,7 +85,7 @@ public class AuthorController implements GetInformation, GetProfile {
         response.setContentType("application/json;charset=UTF-8");
         JSONObject outputJson = new JSONObject();
 
-        if (key.equals(forwardKey)) {
+        if (keyEnable && key.equals(forwardKey)) {
             try {
                 AuthorProfile author = authorService.getAuthorProfileById(authorId);
                 if (author != null) {

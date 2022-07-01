@@ -37,6 +37,8 @@ public class SeriesController {
      */
     @Value("${mikoto.pixiv.forward.key}")
     private String forwardKey;
+    @Value("${mikoto.pixiv.forward.key.enable}")
+    private boolean keyEnable;
 
     @Autowired
     public SeriesController(SeriesService seriesService) {
@@ -59,7 +61,7 @@ public class SeriesController {
         response.setContentType("application/json;charset=UTF-8");
         JSONObject outputJson = new JSONObject();
 
-        if (key.equals(forwardKey)) {
+        if (keyEnable && key.equals(forwardKey)) {
             try {
                 Series series = seriesService.getSeriesById(seriesId);
                 if (series != null) {

@@ -27,10 +27,6 @@ import static net.mikoto.pixiv.api.http.HttpApi.*;
         FORWARD_ARTWORK
 )
 public class ArtworkController implements GetInformation, GetImage {
-    /**
-     * Constants
-     */
-    private static final String PIXIV_IMAGE_URL = "https://i.pximg.net";
 
     /**
      * Instances
@@ -43,6 +39,8 @@ public class ArtworkController implements GetInformation, GetImage {
      */
     @Value("${mikoto.pixiv.forward.key}")
     private String forwardKey;
+    @Value("${mikoto.pixiv.forward.key.enable}")
+    private boolean keyEnable;
 
     @Autowired
     public ArtworkController(DirectConnector directConnector) {
@@ -59,7 +57,7 @@ public class ArtworkController implements GetInformation, GetImage {
         response.setContentType("application/json;charset=UTF-8");
         JSONObject outputJson = new JSONObject();
 
-        if (key.equals(forwardKey)) {
+        if (keyEnable && key.equals(forwardKey)) {
             try {
                 Artwork artwork = directConnector.getArtwork(artworkId);
                 if (artwork != null) {
