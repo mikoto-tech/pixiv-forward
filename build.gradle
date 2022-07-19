@@ -11,6 +11,9 @@ sourceCompatibility = '17'
 repositories {
     mavenCentral()
     mavenLocal()
+    maven {
+        url = uri("https://raw.githubusercontent.com/mikoto-tech/maven-repository/master/repository/")
+    }
 }
 
 dependencies {
@@ -18,9 +21,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'com.dtflys.forest:forest-spring-boot-starter'
 
+
     // Mikoto
-    implementation 'net.mikoto.pixiv:pixiv-api:1.4.3-snapshot-1'
-    implementation 'net.mikoto.pixiv:pixiv-direct-connector:1.0.0'
+    implementation 'net.mikoto.pixiv:pixiv-core:1.4.3-snapshot-1'
+    implementation 'org.springframework.data:spring-data-commons:2.7.0'
 
     // Others
     implementation 'commons-io:commons-io:2.11.0'

@@ -1,6 +1,6 @@
 package net.mikoto.pixiv.forward.service;
 
-import net.mikoto.pixiv.api.model.Series;
+import net.mikoto.pixiv.core.model.Series;
 import net.mikoto.pixiv.forward.exception.PixivException;
 
 import java.io.IOException;
@@ -18,6 +18,7 @@ public interface SeriesService {
      * @return The series.
      * @throws IOException    An exception.
      * @throws ParseException An exception.
+     * @throws PixivException An exception.
      */
     Series getSeriesById(int seriesId) throws IOException, ParseException, PixivException;
 }

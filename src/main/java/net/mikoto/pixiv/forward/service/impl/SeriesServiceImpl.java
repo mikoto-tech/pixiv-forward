@@ -3,7 +3,7 @@ package net.mikoto.pixiv.forward.service.impl;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import net.mikoto.pixiv.api.model.Series;
+import net.mikoto.pixiv.core.model.Series;
 import net.mikoto.pixiv.forward.exception.PixivException;
 import net.mikoto.pixiv.forward.service.SeriesService;
 import okhttp3.OkHttpClient;
@@ -13,10 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
-
-import static net.mikoto.pixiv.api.constant.Constants.USUAL_DATE_FORMAT;
 
 /**
  * @author mikoto
@@ -30,6 +29,7 @@ public class SeriesServiceImpl implements SeriesService {
     private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient.Builder()
             .retryOnConnectionFailure(true)
             .build();
+    public static final SimpleDateFormat USUAL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
 
     /**
      * Constants

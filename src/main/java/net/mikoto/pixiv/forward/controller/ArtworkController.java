@@ -2,10 +2,8 @@ package net.mikoto.pixiv.forward.controller;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
-import net.mikoto.pixiv.api.http.forward.artwork.GetImage;
-import net.mikoto.pixiv.api.http.forward.artwork.GetInformation;
-import net.mikoto.pixiv.api.model.Artwork;
-import net.mikoto.pixiv.direct.connector.DirectConnector;
+import net.mikoto.pixiv.core.connector.DirectConnector;
+import net.mikoto.pixiv.core.model.Artwork;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 
-import static net.mikoto.pixiv.api.http.HttpApi.*;
+import static net.mikoto.pixiv.core.constant.HttpApi.*;
 
 /**
  * @author mikoto
@@ -26,7 +24,7 @@ import static net.mikoto.pixiv.api.http.HttpApi.*;
 @RequestMapping(
         FORWARD_ARTWORK
 )
-public class ArtworkController implements GetInformation, GetImage {
+public class ArtworkController {
 
     /**
      * Instances
@@ -50,7 +48,6 @@ public class ArtworkController implements GetInformation, GetImage {
     @RequestMapping(
             value = FORWARD_ARTWORK_GET_INFORMATION
     )
-    @Override
     public JSONObject getInformationHttpApi(@NotNull HttpServletResponse response,
                                             String key,
                                             int artworkId) {
@@ -86,9 +83,7 @@ public class ArtworkController implements GetInformation, GetImage {
             value = FORWARD_ARTWORK_GET_IMAGE,
             produces = "image/jpeg"
     )
-    @Override
-    public byte[] getImageHttpApi(@NotNull HttpServletResponse response,
-                                  @NotNull String key,
+    public byte[] getImageHttpApi(@NotNull String key,
                                   String url) {
         if (key.equals(forwardKey)) {
             return directConnector.getImage(url);

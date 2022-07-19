@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringBootApplication
 @ComponentScan("net.mikoto.pixiv")
-@ForestScan(basePackages = "net.mikoto.pixiv.direct.connector.client")
+@ForestScan(basePackages = "net.mikoto.pixiv.core.client")
 public class PixivForwardApplication {
     public static void main(String[] args) {
         SpringApplication.run(PixivForwardApplication.class, args);

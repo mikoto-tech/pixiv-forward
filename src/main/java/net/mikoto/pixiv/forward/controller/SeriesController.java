@@ -2,7 +2,7 @@ package net.mikoto.pixiv.forward.controller;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
-import net.mikoto.pixiv.api.model.Series;
+import net.mikoto.pixiv.core.model.Series;
 import net.mikoto.pixiv.forward.service.SeriesService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 
-import static net.mikoto.pixiv.api.http.HttpApi.FORWARD_SERIES;
-import static net.mikoto.pixiv.api.http.HttpApi.FORWARD_SERIES_GET_INFORMATION;
+import static net.mikoto.pixiv.core.constant.HttpApi.FORWARD_SERIES;
+import static net.mikoto.pixiv.core.constant.HttpApi.FORWARD_SERIES_GET_INFORMATION;
 
 /**
  * @author mikoto
