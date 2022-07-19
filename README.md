@@ -1,6 +1,9 @@
 # Mikoto-Pixiv-Forward
 
 [![wakatime](https://wakatime.com/badge/user/1881dd28-2018-456f-8c50-e897127472e4/project/316989a5-c9ab-44a8-80ae-49ad1dbf505c.svg)](https://wakatime.com/badge/user/1881dd28-2018-456f-8c50-e897127472e4/project/316989a5-c9ab-44a8-80ae-49ad1dbf505c)
+[![Java CI](https://github.com/mikoto-tech/pixiv-forward/actions/workflows/ci.yaml/badge.svg)](https://github.com/mikoto-tech/pixiv-forward/actions/workflows/ci.yaml)
+[![License](https://img.shields.io/github/license/mikoto-tech/pixiv-forward?color=4D7A97)](https://www.gnu.org/licenses/agpl-3.0.html)
+[![GitHub release](https://img.shields.io/github/release/mikoto-tech/pixiv-forward)](https://github.com/mikoto-tech/pixiv-forward/releases)
 
 `Mikoto-Pixiv-Forward` 是为了
 
