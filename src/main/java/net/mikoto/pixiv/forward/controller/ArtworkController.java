@@ -85,7 +85,7 @@ public class ArtworkController {
     )
     public byte[] getImageHttpApi(@NotNull String key,
                                   String url) {
-        if (key.equals(forwardKey)) {
+        if (!keyEnable || key.equals(forwardKey)) {
             return directConnector.getImage(url);
         } else {
             return null;
