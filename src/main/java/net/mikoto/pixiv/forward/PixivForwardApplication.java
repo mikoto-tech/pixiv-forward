@@ -9,7 +9,8 @@ import org.springframework.context.annotation.ComponentScan;
  * @author mikoto
  */
 @SpringBootApplication
-@ComponentScan("net.mikoto.pixiv")
+@ComponentScan("net.mikoto.pixiv.core.connector.impl.independence")
+@ComponentScan("net.mikoto.pixiv.forward")
 @ForestScan(basePackages = "net.mikoto.pixiv.core.client")
 public class PixivForwardApplication {
     public static void main(String[] args) {
