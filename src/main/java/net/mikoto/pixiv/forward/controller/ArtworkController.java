@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 
-import static net.mikoto.pixiv.core.constant.HttpApi.*;
-
 /**
  * @author mikoto
  * Created at 17:15:44, 2021/9/20
@@ -22,7 +20,7 @@ import static net.mikoto.pixiv.core.constant.HttpApi.*;
  */
 @RestController
 @RequestMapping(
-        FORWARD_ARTWORK
+        "/artwork"
 )
 public class ArtworkController {
 
@@ -46,7 +44,7 @@ public class ArtworkController {
     }
 
     @RequestMapping(
-            value = FORWARD_ARTWORK_GET_INFORMATION
+            value = "/getInformation"
     )
     public JSONObject getInformationHttpApi(@NotNull HttpServletResponse response,
                                             String key,
@@ -80,7 +78,7 @@ public class ArtworkController {
     }
 
     @RequestMapping(
-            value = FORWARD_ARTWORK_GET_IMAGE,
+            value = "/getImage",
             produces = "image/jpeg"
     )
     public byte[] getImageHttpApi(@NotNull String key,

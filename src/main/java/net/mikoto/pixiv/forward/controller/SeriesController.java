@@ -14,16 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 
-import static net.mikoto.pixiv.core.constant.HttpApi.FORWARD_SERIES;
-import static net.mikoto.pixiv.core.constant.HttpApi.FORWARD_SERIES_GET_INFORMATION;
-
 /**
  * @author mikoto
  * @date 2022/5/1 14:06
  */
 @RestController
 @RequestMapping(
-        FORWARD_SERIES
+        "/series"
 )
 public class SeriesController {
     /**
@@ -54,7 +51,7 @@ public class SeriesController {
      * @return Result.
      */
     @RequestMapping(
-            value = FORWARD_SERIES_GET_INFORMATION,
+            value = "/getInformation",
             method = RequestMethod.GET
     )
     public JSONObject getInformationHttpApi(@NotNull HttpServletResponse response, String key, int seriesId) {
