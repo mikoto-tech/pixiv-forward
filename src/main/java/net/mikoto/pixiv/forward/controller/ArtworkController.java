@@ -63,6 +63,7 @@ public class ArtworkController {
                 } else {
                     outputJson.put("body", null);
                     outputJson.put("success", false);
+                    response.setStatus(404);
                     outputJson.put("message", "Cannot find artwork.");
                 }
             } catch (Exception e) {
